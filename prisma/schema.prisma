@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+  seed    = "node seed.js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  products    Product[]
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  name           String
+  price          Float
+  categoryId     Int
+  cigarCountry   String?
+  discountAmount Float?
+  imageUrl       String
+  inStock        Boolean
+  isCigarette    Boolean
+  isDiscount     Boolean
+  category       Category @relation(fields: [categoryId], references: [id])
+}
